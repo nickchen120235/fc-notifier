@@ -16,7 +16,7 @@ async function nako(): Promise<void> {
   const html = await res.text();
   const root = parse(html);
   const news = root.querySelectorAll("section#news > ul > li.news__li");
-  console.log(`Found ${news.length} post`)
+  console.log(`Found ${news.length} post`);
   const posts: Post[] = [];
   for (const n of news) {
     const href = n.querySelector("a")?.getAttribute("href");
@@ -35,7 +35,6 @@ async function nako(): Promise<void> {
       }
     }
   }
-  console.log(posts)
   const lastPost = (await kv.get<number>(["post", "nako"])).value ?? 0;
   if (lastPost !== 0) {
     // sort posts by _id from small to big
@@ -58,4 +57,4 @@ async function nako(): Promise<void> {
   }
 }
 
-await nako();
+export default nako;
