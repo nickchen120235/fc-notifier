@@ -40,7 +40,7 @@ async function liella(): Promise<void> {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: "Liella Fanclub",
+          username: "Liella! CLUB",
           content: `## ${p.title}\n${p.time}\n${p.url}`,
         }),
       })
