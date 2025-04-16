@@ -16,3 +16,10 @@ export class HttpError extends Error {
 export const kv = await Deno.openKv();
 
 export const DISCORD_WEBHOOK = Deno.env.get("DISCORD_WEBHOOK") ?? "";
+
+export interface Post {
+  url: string;
+  title: string;
+  time: string;
+  _id: number;
+}

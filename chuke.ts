@@ -1,13 +1,6 @@
-import { parse, HEADER, HttpError, kv, DISCORD_WEBHOOK } from "./common.ts";
+import { parse, HEADER, HttpError, kv, DISCORD_WEBHOOK, type Post } from "./common.ts";
 
 const base = "https://nirebiyori.com";
-
-interface Post {
-  url: string;
-  title: string;
-  time: string;
-  _id: number;
-}
 
 async function chuke(): Promise<void> {
   const res = await fetch(`${base}/sitenews_tag.php`, { headers: HEADER });

@@ -1,13 +1,6 @@
-import { parse, HEADER, HttpError, kv, DISCORD_WEBHOOK } from "./common.ts";
+import { parse, HEADER, HttpError, kv, DISCORD_WEBHOOK, type Post } from "./common.ts";
 
 const base = "https://account.tonarininako.jp";
-
-interface Post {
-  url: string;
-  title: string;
-  time: string;
-  _id: number;
-}
 
 async function nako(): Promise<void> {
   const res = await fetch(`${base}/login.php`, { headers: HEADER });
