@@ -15,7 +15,6 @@ async function chuke(): Promise<void> {
     const href = n.querySelector("a")?.getAttribute("href");
     const title = n.querySelector("div.news__title")?.innerText.trim();
     const time = n.querySelector("time")?.innerText.trim();
-    console.log(href, title, time);
     if (href && title && time) {
       const link = new URL(href, base);
       const id = link.searchParams.get("id");
@@ -40,7 +39,7 @@ async function chuke(): Promise<void> {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: "となりになこ",
+          username: "にれ日和",
           content: `## ${p.title}\n${p.time}\n${p.url}`,
         }),
       })
