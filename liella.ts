@@ -44,5 +44,4 @@ async function liella(): Promise<void> {
   }
 }
 
-// export default liella;
-await liella();
+export default liella;
