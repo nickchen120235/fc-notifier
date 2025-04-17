@@ -29,25 +29,19 @@ async function liella(): Promise<void> {
     }
   }
   console.log(posts);
-  const lastPost = (await kv.get<number>(["post", "liella"])).value ?? 0;
-  if (lastPost !== 0) {
-    // sort posts by _id from small to big
-    for (const p of posts.toSorted((a, b) => a._id - b._id)) {
-      if (p._id <= lastPost) continue;
-      const _ = await fetch(DISCORD_WEBHOOK, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: "Liella! CLUB",
-          content: `## ${p.title}\n${p.time}\n${p.url}`,
-        }),
-      })
-    }
-  }
-  if (posts[0]._id > lastPost) {
-    await kv.set(["post", "liella"], posts[0]._id);
+  for (const p of posts.toReversed()) {
+    if ((await kv.get<string>(["post", "liella", p.time, p._id])).value !== null) continue;
+    const _ = await fetch(DISCORD_WEBHOOK, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: "Liella! CLUB",
+        content: `## ${p.title}\n${p.time}\n${p.url}`,
+      }),
+    })
+    await kv.set(["post", "liella", p.time, p._id], p.title, { expireIn: 30 * 86400 });
   }
 }
 
