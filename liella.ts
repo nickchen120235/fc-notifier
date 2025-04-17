@@ -40,7 +40,7 @@ async function liella(): Promise<void> {
         content: `## ${p.title}\n${p.time}\n${p.url}`,
       }),
     })
-    await kv.set(["post", "liella", p.time, p.title], p.title, { expireIn: 30 * 86400 });
+    await kv.set(["post", "liella", p.time, p.title], p.title, { expireIn: 30 * 86400 * 1000 });
   }
 }
 
