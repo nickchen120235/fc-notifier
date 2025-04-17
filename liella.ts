@@ -19,21 +19,17 @@ async function liella(): Promise<void> {
     const time = n.querySelector("div.entry_label > span.date")?.innerText.trim();
     if (href && title && time) {
       const link = new URL(href, base);
-      const id = link.searchParams.get("id");
-      if (id) {
-        posts.push({
-          url: link.href,
-          title,
-          time,
-        })
-      }
+      posts.push({
+        url: link.href,
+        title,
+        time,
+      })
     }
   }
+  posts.reverse();
   console.log(posts);
-  const lastPost = (await kv.get<string>(["post", "liella"])).value ?? "";
-  // use copy of reversed posts
-  for (const p of posts.toReversed()) {
-    if (p.url === lastPost) break;
+  for (const p of posts) {
+    if ((await kv.get<string>(["post", "liella", p.time, p.url])).value !== null) continue;
     await fetch(DISCORD_WEBHOOK, {
       method: "POST",
       headers: {
@@ -44,9 +40,7 @@ async function liella(): Promise<void> {
         content: `## ${p.title}\n${p.time}\n${p.url}`,
       }),
     })
-  }
-  if (posts[0].url !== lastPost) {
-    await kv.set(["post", "liella"], posts[0].url);
+    await kv.set(["post", "liella", p.time, p.url], p.title, { expireIn: 30 * 86400 });
   }
 }
 
